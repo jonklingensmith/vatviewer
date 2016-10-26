@@ -22,7 +22,7 @@ function varargout = vatviewer(varargin)
 
 % Edit the above text to modify the response to help vatviewer
 
-% Last Modified by GUIDE v2.5 24-Oct-2016 16:14:31
+% Last Modified by GUIDE v2.5 26-Oct-2016 16:15:26
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -52,6 +52,9 @@ function vatviewer_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to vatviewer (see VARARGIN)
 
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
+
 % Choose default command line output for vatviewer
 handles.output = hObject;
 
@@ -60,6 +63,12 @@ guidata(hObject, handles);
 
 % UIWAIT makes vatviewer wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
+
+% set data type to EAT by default on opening
+WHICH_TYPE = 'EAT_3D';
+
+% set the radio button to EAT initially
+set(handles.radiobutton_EAT,'Value',1);
 
 
 
@@ -90,6 +99,10 @@ if isequal(resultsFileName,0) || isequal(resultsPath,0)
     disp('User pressed cancel')
 else
     
+    % display hourglass cursor while loading
+    set(handles.figure1,'pointer','watch');
+    drawnow;
+    
     % display the filename (minus the full path) that the user 
     % selected in the static text 
     texthandle = handles.text_resultsFile;
@@ -100,19 +113,19 @@ else
     load(resultsFileName);
     disp(sprintf('Loaded results workspace from %s ...',resultsFileName));
     
-    % choose the global variables we want from this set of results to use
-    % in other actions from the GUI
-    EAT_3D = EAT3d;
-    
+    % copy correct data type to the one we will use for viewing
+    vatviewerSetTissueType();
+    vatviewerLoadTissueData();
+   
     % set the bounds on the slider based on the size of the EAT data
-    numEATSlices = size(EAT_3D,3); % 3rd dim is slices
+    numSlices = size(VOL_3D,3); % 3rd dim is slices
     sliderhandle = handles.slider_imageSlice;
-    set(sliderhandle,'Max',numEATSlices);
+    set(sliderhandle,'Max',numSlices);
     set(sliderhandle,'Min',1);
     
     % take the middle slice as the initial image to display
-    middleSlice = floor(numEATSlices / 2);
-    image(EAT_3D(:,:,middleSlice),'Parent',handles.axes_image);
+    middleSlice = floor(numSlices / 2);
+    image(VOL_3D(:,:,middleSlice),'Parent',handles.axes_image);
     set(sliderhandle,'Value',middleSlice);
     
     % display the file selected in the command window, too
@@ -121,8 +134,13 @@ else
     % set appropriate value in frame number label
     set(handles.text_frameNumber,'String',...
         sprintf('Frame Number: %d',uint8(middleSlice)));
-
+    
+    % reset back to pointer cursor
+    set(handles.figure1,'pointer','arrow');
 end
+
+
+
 
 
 % --- Executes on slider movement.
@@ -150,12 +168,11 @@ if currpos > maxval
 end
 set(handles.slider_imageSlice,'Value',currpos);
 disp(sprintf('slider value: %f',currpos));
-image(EAT_3D(:,:,uint8(currpos)),'Parent',handles.axes_image);
+image(VOL_3D(:,:,uint8(currpos)),'Parent',handles.axes_image);
 
 % set appropriate value in frame number label
 set(handles.text_frameNumber,'String',...
     sprintf('Frame Number: %d',uint8(currpos)));
-
 
 
 
@@ -169,3 +186,45 @@ function slider_imageSlice_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+
+
+% --- Executes when selected object is changed in uibuttongroup_fatType.
+function uibuttongroup_fatType_SelectionChangedFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uibuttongroup_fatType 
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% get current selection
+stringSelection = get(hObject,'String');
+
+% set the correct data and reload 
+switch stringSelection
+    case 'EAT'
+        disp('EAT selected.');
+    case 'PAAT'
+        disp('PAAT selected.');
+    case 'CAT'
+        disp('CAT selected.');
+    case 'SCAT'
+        disp('SCAT selected.');
+    case 'TAT'
+        disp('TAT selected.');
+    case 'VAT'
+        disp('VAT selected.');
+    case 'IMAT'
+        disp('IMAT selected.');
+    case 'ORGANS'
+        disp('ORGANS selected.');
+    case 'VOIDS'
+        disp('VOIDS selected.');
+    case 'LUNGS'
+        disp('LUNGS selected.');
+    case 'HEART'
+        disp('HEART selected.');
+    case 'AORTA'
+        disp('AORTA selected.');
+    otherwise
+end
+
+    
+    
