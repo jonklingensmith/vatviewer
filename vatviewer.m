@@ -67,8 +67,12 @@ guidata(hObject, handles);
 % set data type to EAT by default on opening
 WHICH_TYPE = 'EAT_3D';
 
-% set the radio button to EAT initially
-set(handles.radiobutton_EAT,'Value',1);
+% set the radio button to EAT initially upon loading new data
+set(handles.uibuttongroup_fatType,'SelectedObject',...
+    handles.radiobutton_EAT);
+
+% set flag for loaded data to false
+BOOL_LOADED_DATA = 0;
 
 
 
@@ -137,6 +141,13 @@ else
     
     % reset back to pointer cursor
     set(handles.figure1,'pointer','arrow');
+    
+    % set the radio button to EAT initially upon loading new data
+    set(handles.uibuttongroup_fatType,'SelectedObject',...
+        handles.radiobutton_EAT);
+    
+    % set flag for loaded data to true
+    BOOL_LOADED_DATA = 1;
 end
 
 
@@ -194,37 +205,75 @@ function uibuttongroup_fatType_SelectionChangedFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% get current selection
-stringSelection = get(hObject,'String');
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
 
-% set the correct data and reload 
-switch stringSelection
-    case 'EAT'
-        disp('EAT selected.');
-    case 'PAAT'
-        disp('PAAT selected.');
-    case 'CAT'
-        disp('CAT selected.');
-    case 'SCAT'
-        disp('SCAT selected.');
-    case 'TAT'
-        disp('TAT selected.');
-    case 'VAT'
-        disp('VAT selected.');
-    case 'IMAT'
-        disp('IMAT selected.');
-    case 'ORGANS'
-        disp('ORGANS selected.');
-    case 'VOIDS'
-        disp('VOIDS selected.');
-    case 'LUNGS'
-        disp('LUNGS selected.');
-    case 'HEART'
-        disp('HEART selected.');
-    case 'AORTA'
-        disp('AORTA selected.');
-    otherwise
-end
-
+if BOOL_LOADED_DATA
     
+    % get current selection
+    stringSelection = get(hObject,'String');
+    
+    % set the correct data and reload 
+    switch stringSelection
+        case 'EAT'
+            disp('EAT selected.');
+            WHICH_TYPE = 'EAT_3D';
+        case 'PAAT'
+            disp('PAAT selected.');
+            WHICH_TYPE = 'PAAT_3D';
+        case 'CAT'
+            disp('CAT selected.');
+            WHICH_TYPE = 'CAT_3D';
+        case 'SCAT'
+            disp('SCAT selected.');
+            WHICH_TYPE = 'SCAT_3D';
+        case 'TAT'
+            disp('TAT selected.');
+            WHICH_TYPE = 'TAT_3D';
+        case 'VAT'
+            disp('VAT selected.');
+            WHICH_TYPE = 'VAT_3D';
+        case 'IMAT'
+            disp('IMAT selected.');
+            WHICH_TYPE = 'IMAT_3D';
+        case 'ORGANS'
+            disp('ORGANS selected.');
+            WHICH_TYPE = 'ORGANS_3D';
+        case 'VOIDS'
+            disp('VOIDS selected.');
+            WHICH_TYPE = 'VOIDS_3D';
+        case 'LUNGS'
+            disp('LUNGS selected.');
+            WHICH_TYPE = 'LUNGS_3D';
+        case 'HEART'
+            disp('HEART selected.');
+            WHICH_TYPE = 'HEART_3D';
+        case 'AORTA'
+            disp('AORTA selected.');
+        otherwise
+    end
+
+    % now use the function to update the actual 3D data - does basically
+    % same thing as above, but also sets data - could remove later???
+    vatviewerSetTissueType();
+
+    % now need to reset slider range and show correct data
+    numSlices = size(VOL_3D,3); % 3rd dim is slices
+    disp(sprintf('Number of slices: %d',numSlices));
+    sliderhandle = handles.slider_imageSlice;
+    set(sliderhandle,'Max',numSlices);
+    set(sliderhandle,'Min',1);
+
+    % take the middle slice as the initial image to display
+    middleSlice = floor(numSlices / 2);
+    image(VOL_3D(:,:,middleSlice),'Parent',handles.axes_image);
+    set(sliderhandle,'Value',middleSlice);
+    
+    % set appropriate value in frame number label
+    set(handles.text_frameNumber,'String',...
+        sprintf('Frame Number: %d',uint8(middleSlice)));
+
+else
+    errordlg('Load results data before selecting type!','Load Error');
+end
     

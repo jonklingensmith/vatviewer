@@ -46,19 +46,19 @@ switch WHICH_TYPE
         VOL_3D = IMAT3d;
         disp(sprintf('Set data type to %s','IMAT_3D'));
     case 'ORGANS_3D'
-        VOL_3D = organs;
+        VOL_3D = organs3d;
         disp(sprintf('Set data type to %s','ORGANS_3D'));
     case 'VOIDS_3D'
-        VOL_3D = voids;
+        VOL_3D = voids3d;
         disp(sprintf('Set data type to %s','VOIDS_3D'));
     case 'LUNGS_3D'
-        VOL_3D = lungs;
+        VOL_3D = lung3d;
         disp(sprintf('Set data type to %s','LUNGS_3D'));
     case 'HEART_3D'
-        VOL_3D = heart;
+        VOL_3D = heart3d;
         disp(sprintf('Set data type to %s','HEART_3D'));
     case 'AORTA_3D'
-        VOL_3D = aorta;
+        VOL_3D = aorta3d;
         disp(sprintf('Set data type to %s','AORTA_3D'));
     otherwise
         VOL_3D = EAT3d;

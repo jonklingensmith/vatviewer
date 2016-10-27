@@ -19,6 +19,7 @@ global AORTA_3D;
 % with the same as the variable name for that type
 global WHICH_TYPE; 
 global VOL_3D; % to store the volume chosen
+global BOOL_LOADED_DATA; % flag for whether data has been loaded
 
 % list of tissue types output by VATsegmentationFull2
 global SCAT3d;
