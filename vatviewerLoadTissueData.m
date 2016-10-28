@@ -31,3 +31,12 @@ PAAT_3D = PAAT3d;
 clear PAAT3d;
 EAT_3D = EAT3d;
 clear EAT3d;
+FATONLY_3D = IFraw3d;
+clear IFraw3d;
+WATERONLY_3D = IWraw3d;
+clear IWraw3d;
+FATFRACTION_3D = FatFraction3d;
+clear FatFraction3d;
+WATERFRACTION_3D = WaterFraction3d;
+clear WaterFraction3d;
+

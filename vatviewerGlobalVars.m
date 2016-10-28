@@ -14,6 +14,10 @@ global VOIDS_3D;
 global LUNGS_3D;
 global HEART_3D;
 global AORTA_3D;
+global FATONLY_3D;
+global WATERONLY_3D;
+global FATFRACTION_3D;
+global WATERFRACTION_3D;
 
 % to switch which tissue type to display - use a string
 % with the same as the variable name for that type
@@ -34,5 +38,9 @@ global aorta3d;
 global CAT3d;
 global PAAT3d;
 global EAT3d;
+global IFraw3d;
+global IWraw3d;
+global FatFraction3d;
+global WaterFraction3d;
 
 

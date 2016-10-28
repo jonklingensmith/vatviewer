@@ -87,6 +87,7 @@ function varargout = vatviewer_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
+
 % --- Executes on button press in pushbutton_resultsFile.
 function pushbutton_resultsFile_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_resultsFile (see GCBO)
@@ -152,8 +153,6 @@ end
 
 
 
-
-
 % --- Executes on slider movement.
 function slider_imageSlice_Callback(hObject, eventdata, handles)
 % hObject    handle to slider_imageSlice (see GCBO)
@@ -197,6 +196,7 @@ function slider_imageSlice_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+
 
 
 % --- Executes when selected object is changed in uibuttongroup_fatType.
@@ -250,6 +250,19 @@ if BOOL_LOADED_DATA
             WHICH_TYPE = 'HEART_3D';
         case 'AORTA'
             disp('AORTA selected.');
+            WHICH_TYPE = 'AORTA_3D';
+        case 'Fat Only Image'
+            disp('Fat Only Image selected.');
+            WHICH_TYPE = 'FATONLY_3D';
+        case 'Water Only Image'
+            disp('Water Only Image selected.');
+            WHICH_TYPE = 'WATERONLY_3D';
+        case 'Fat Fraction'
+            disp('Fat Fraction selected.');
+            WHICH_TYPE = 'FATFRACTION_3D';
+        case 'Water Fraction'
+            disp('Water Fraction selected.');
+            WHICH_TYPE = 'WATERFRACTION_3D';
         otherwise
     end
 

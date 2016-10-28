@@ -6,73 +6,61 @@ function [] = vatviewerSetTissueType()
 % access to global variables
 vatviewerGlobalVars;
 
-% list of tissue types output by VATsegmentationFull2
-% SCAT3d(:,:,i)   = SCAT;
-% TAT3d(:,:,i)    = TAT;
-% VAT3d(:,:,i)    = VAT;
-% IMAT3d(:,:,i)   = IMAT;
-% organs3d(:,:,i) = organs;
-% voids3d(:,:,i)  = voids;
-% lung3d(:,:,i)   = lungs;
-% heart3d(:,:,i)  = heart;
-% aorta3d(:,:,i)  = aorta;
-% CAT3d(:,:,i)    = CAT;
-% PAAT3d(:,:,i)   = PAAT;
-% EAT3d(:,:,i)    = EAT;
-
 % looks at global variable controlling which type of data to use
 % and sets that up in the 3D data set variable
 
 switch WHICH_TYPE
     case 'EAT_3D'
-        VOL_3D = EAT3d;
+        VOL_3D = EAT_3D;
         disp(sprintf('Set data type to %s','EAT_3D'));
     case 'PAAT_3D'
-        VOL_3D = PAAT3d;
+        VOL_3D = PAAT_3D;
         disp(sprintf('Set data type to %s','PAT_3D'));
     case 'CAT_3D'
-        VOL_3D = CAT3d;
+        VOL_3D = CAT_3D;
         disp(sprintf('Set data type to %s','CAT_3D'));
     case 'SCAT_3D'
-        VOL_3D = SCAT3d;
+        VOL_3D = SCAT_3D;
         disp(sprintf('Set data type to %s','SCAT_3D'));
     case 'TAT_3D'
-        VOL_3D = TAT3d;
+        VOL_3D = TAT_3D;
         disp(sprintf('Set data type to %s','TAT_3D'));
     case 'VAT_3D'
-        VOL_3D = VAT3d;
+        VOL_3D = VAT_3D;
         disp(sprintf('Set data type to %s','VAT_3D'));
     case 'IMAT_3D'
-        VOL_3D = IMAT3d;
+        VOL_3D = IMAT_3D;
         disp(sprintf('Set data type to %s','IMAT_3D'));
     case 'ORGANS_3D'
-        VOL_3D = organs3d;
+        VOL_3D = ORGANS_3D;
         disp(sprintf('Set data type to %s','ORGANS_3D'));
     case 'VOIDS_3D'
-        VOL_3D = voids3d;
+        VOL_3D = VOIDS_3D;
         disp(sprintf('Set data type to %s','VOIDS_3D'));
     case 'LUNGS_3D'
-        VOL_3D = lung3d;
+        VOL_3D = LUNGS_3D;
         disp(sprintf('Set data type to %s','LUNGS_3D'));
     case 'HEART_3D'
-        VOL_3D = heart3d;
+        VOL_3D = HEART_3D;
         disp(sprintf('Set data type to %s','HEART_3D'));
     case 'AORTA_3D'
-        VOL_3D = aorta3d;
+        VOL_3D = AORTA_3D;
         disp(sprintf('Set data type to %s','AORTA_3D'));
+    case 'FATONLY_3D'
+        VOL_3D = FATONLY_3D;
+        disp(sprintf('Set data type to %s','FATONLY_3D'));
+    case 'WATERONLY_3D'
+        VOL_3D = WATERONLY_3D;
+        disp(sprintf('Set data type to %s','WATERONLY_3D'));
+    case 'FATFRACTION_3D'
+        VOL_3D = FATFRACTION_3D;
+        disp(sprintf('Set data type to %s','FATFRACTION_3D'));
+    case 'WATERFRACTION_3D'
+        VOL_3D = WATERFRACTION_3D;
+        disp(sprintf('Set data type to %s','WATERFRACTION_3D'));
     otherwise
-        VOL_3D = EAT3d;
+        VOL_3D = EAT_3D;
+        disp(sprintf('Set data type to %s','EAT_3D'));
 end
 
-% SCAT_3D = SCAT3d;
-% TAT_3D = TAT3d;
-% VAT_3D = VAT3d;
-% IMAT_3D = IMAT3d;
-% ORGANS_3D = organs3d;
-% VOIDS_3D = voids3d;
-% LUNGS_3D = lung3d;
-% HEART_3D = heart3d;
-% AORTA_3D = aorta3d;
-% CAT_3D = CAT3d;
-% PAAT_3D = PAAT3d;
-% EAT_3D = EAT3d;
+
