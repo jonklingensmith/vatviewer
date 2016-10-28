@@ -119,8 +119,8 @@ else
     disp(sprintf('Loaded results workspace from %s ...',resultsFileName));
     
     % copy correct data type to the one we will use for viewing
-    vatviewerSetTissueType();
     vatviewerLoadTissueData();
+    vatviewerSetTissueType();
    
     % set the bounds on the slider based on the size of the EAT data
     numSlices = size(VOL_3D,3); % 3rd dim is slices

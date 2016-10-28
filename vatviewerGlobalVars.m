@@ -40,7 +40,7 @@ global PAAT3d;
 global EAT3d;
 global IFraw3d;
 global IWraw3d;
-global FatFraction3d;
-global WaterFraction3d;
+global FatFraction;
+global WaterFraction;
 
 
