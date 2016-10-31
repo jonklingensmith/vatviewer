@@ -135,7 +135,7 @@ else
     
     % take the middle slice as the initial image to display
     middleSlice = floor(numSlices / 2);
-    image(VOL_3D(:,:,middleSlice),'Parent',handles.axes_image);
+    imagesc(VOL_3D(:,:,middleSlice),'Parent',handles.axes_image);
     set(sliderhandle,'Value',middleSlice);
     
     % display the file selected in the command window, too
@@ -188,7 +188,7 @@ if currpos > maxval
 end
 set(handles.slider_imageSlice,'Value',currpos);
 disp(sprintf('slider value: %f',currpos));
-image(VOL_3D(:,:,uint8(currpos)),'Parent',handles.axes_image);
+imagesc(VOL_3D(:,:,uint8(currpos)),'Parent',handles.axes_image);
 
 % set appropriate value in frame number label
 set(handles.text_frameNumber,'String',...
@@ -287,14 +287,20 @@ if BOOL_LOADED_DATA
     set(sliderhandle,'Max',numSlices);
     set(sliderhandle,'Min',1);
 
+    % keep current location of slider position unless it's out of bounds
+    % for the new image set - if so, set to closest value
+    valueToSet = get(sliderhandle,'Value');
+    if (valueToSet > numSlices)
+        valueToSet = floor(numSlices / 2);
+    end
+    
     % take the middle slice as the initial image to display
-    middleSlice = floor(numSlices / 2);
-    image(VOL_3D(:,:,middleSlice),'Parent',handles.axes_image);
-    set(sliderhandle,'Value',middleSlice);
+    imagesc(VOL_3D(:,:,valueToSet),'Parent',handles.axes_image);
+    set(sliderhandle,'Value',valueToSet);
     
     % set appropriate value in frame number label
     set(handles.text_frameNumber,'String',...
-        sprintf('Frame Number: %d',uint8(middleSlice)));
+        sprintf('Frame Number: %d',uint8(valueToSet)));
 
 else
     errordlg('Load results data before selecting type!','Load Error');
