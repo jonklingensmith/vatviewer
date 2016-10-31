@@ -22,7 +22,7 @@ function varargout = vatviewer(varargin)
 
 % Edit the above text to modify the response to help vatviewer
 
-% Last Modified by GUIDE v2.5 26-Oct-2016 16:15:26
+% Last Modified by GUIDE v2.5 31-Oct-2016 10:48:56
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -70,6 +70,11 @@ WHICH_TYPE = 'EAT_3D';
 % set the radio button to EAT initially upon loading new data
 set(handles.uibuttongroup_fatType,'SelectedObject',...
     handles.radiobutton_EAT);
+
+% set the colormap radio button to gray initially
+set(handles.uibuttongroup_Colormap,'SelectedObject',...
+    handles.radiobutton_Gray);
+colormap('gray');
 
 % set flag for loaded data to false
 BOOL_LOADED_DATA = 0;
@@ -143,9 +148,14 @@ else
     % reset back to pointer cursor
     set(handles.figure1,'pointer','arrow');
     
-    % set the radio button to EAT initially upon loading new data
+    % set the fat type radio button to EAT initially upon loading new data
     set(handles.uibuttongroup_fatType,'SelectedObject',...
         handles.radiobutton_EAT);
+
+    % set the colormap radio button to gray initially
+    set(handles.uibuttongroup_Colormap,'SelectedObject',...
+        handles.radiobutton_Gray);
+    colormap('gray');
     
     % set flag for loaded data to true
     BOOL_LOADED_DATA = 1;
@@ -290,3 +300,43 @@ else
     errordlg('Load results data before selecting type!','Load Error');
 end
     
+
+
+% --- Executes when selected object is changed in uibuttongroup_Colormap.
+function uibuttongroup_Colormap_SelectionChangedFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uibuttongroup_Colormap 
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
+
+% set colormap based on value of radio button group selection
+if BOOL_LOADED_DATA
+    
+    % get current selection
+    stringSelection = get(hObject,'String');
+    
+    % set the correct data and reload 
+    switch stringSelection
+        case 'Parula'
+            disp('Parula colormap selected.');
+            colormap('Parula');
+        case 'Hot'
+            disp('Hot colormap selected.');
+            colormap('Hot');
+        case 'Gray'
+            disp('Gray colormap selected.');
+            colormap('Gray');
+        case 'Bone'
+            disp('Bone colormap selected.');
+            colormap('Bone');
+        otherwise
+    end
+else
+    errordlg('Load results data before selecting a colormap!','Load Error');
+end
+
+
+
+
