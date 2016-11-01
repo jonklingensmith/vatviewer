@@ -163,7 +163,6 @@ else
     % enable boundaries button
     set(handles.pushbutton_FindBoundaries,'Enable','on');
 
-    
     % set flag for loaded data to true
     BOOL_LOADED_DATA = 1;
 end
@@ -235,51 +234,67 @@ if BOOL_LOADED_DATA
         case 'EAT'
             disp('EAT selected.');
             WHICH_TYPE = 'EAT_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'PAAT'
             disp('PAAT selected.');
             WHICH_TYPE = 'PAAT_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'CAT'
             disp('CAT selected.');
             WHICH_TYPE = 'CAT_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'SCAT'
             disp('SCAT selected.');
             WHICH_TYPE = 'SCAT_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');            
         case 'TAT'
             disp('TAT selected.');
             WHICH_TYPE = 'TAT_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');            
         case 'VAT'
             disp('VAT selected.');
             WHICH_TYPE = 'VAT_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'IMAT'
             disp('IMAT selected.');
             WHICH_TYPE = 'IMAT_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'ORGANS'
             disp('ORGANS selected.');
             WHICH_TYPE = 'ORGANS_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'VOIDS'
             disp('VOIDS selected.');
             WHICH_TYPE = 'VOIDS_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'LUNGS'
             disp('LUNGS selected.');
             WHICH_TYPE = 'LUNGS_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'HEART'
             disp('HEART selected.');
             WHICH_TYPE = 'HEART_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'AORTA'
             disp('AORTA selected.');
             WHICH_TYPE = 'AORTA_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','on');
         case 'Fat Only Image'
             disp('Fat Only Image selected.');
             WHICH_TYPE = 'FATONLY_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','off');
         case 'Water Only Image'
             disp('Water Only Image selected.');
             WHICH_TYPE = 'WATERONLY_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','off');
         case 'Fat Fraction'
             disp('Fat Fraction selected.');
             WHICH_TYPE = 'FATFRACTION_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','off');
         case 'Water Fraction'
             disp('Water Fraction selected.');
             WHICH_TYPE = 'WATERFRACTION_3D';
+            set(handles.pushbutton_FindBoundaries,'Enable','off');
         otherwise
     end
 
@@ -365,7 +380,17 @@ currSliceNum = get(handles.slider_imageSlice,'Value');
 disp(sprintf('Current frame for boundary tracing: %d',currSliceNum));
 imageSlice = VOL_3D(:,:,currSliceNum);
 
-% scale image appropriately
-maxVal = max(max(imageSlice));
-disp(sprintf('Max value of this slice: %d',maxVal));
+% convert image to true binary
+binImage = (imageSlice>0);
+clear imageSlice;
+
+% trace boundaries and overlay results
+[B,L] = bwboundaries(binImage,8,'holes');
+hold on;
+for k = 1:length(B)
+   boundary = B{k};
+   plot(boundary(:,2), boundary(:,1),'y','LineWidth',2);
+end
+hold off;
+
 
