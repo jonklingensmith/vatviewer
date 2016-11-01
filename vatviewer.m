@@ -22,7 +22,7 @@ function varargout = vatviewer(varargin)
 
 % Edit the above text to modify the response to help vatviewer
 
-% Last Modified by GUIDE v2.5 31-Oct-2016 10:48:56
+% Last Modified by GUIDE v2.5 31-Oct-2016 17:00:27
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -75,6 +75,9 @@ set(handles.uibuttongroup_fatType,'SelectedObject',...
 set(handles.uibuttongroup_Colormap,'SelectedObject',...
     handles.radiobutton_Gray);
 colormap('gray');
+
+% disable boundary button
+set(handles.pushbutton_FindBoundaries,'Enable','off');
 
 % set flag for loaded data to false
 BOOL_LOADED_DATA = 0;
@@ -156,6 +159,10 @@ else
     set(handles.uibuttongroup_Colormap,'SelectedObject',...
         handles.radiobutton_Gray);
     colormap('gray');
+
+    % enable boundaries button
+    set(handles.pushbutton_FindBoundaries,'Enable','on');
+
     
     % set flag for loaded data to true
     BOOL_LOADED_DATA = 1;
@@ -344,5 +351,21 @@ else
 end
 
 
+% --- Executes on button press in pushbutton_FindBoundaries.
+function pushbutton_FindBoundaries_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton_FindBoundaries (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
+
+% pull out current frame of data
+currSliceNum = get(handles.slider_imageSlice,'Value');
+disp(sprintf('Current frame for boundary tracing: %d',currSliceNum));
+imageSlice = VOL_3D(:,:,currSliceNum);
+
+% scale image appropriately
+maxVal = max(max(imageSlice));
+disp(sprintf('Max value of this slice: %d',maxVal));
 
