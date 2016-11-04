@@ -24,6 +24,7 @@ global WATERFRACTION_3D;
 global WHICH_TYPE; 
 global VOL_3D; % to store the volume chosen
 global BOOL_LOADED_DATA; % flag for whether data has been loaded
+global BOOL_TRACING_BOUNDARIES; % flag for "tracing" mode
 
 % list of tissue types output by VATsegmentationFull2
 global SCAT3d;

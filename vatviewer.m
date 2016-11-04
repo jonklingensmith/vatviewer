@@ -22,7 +22,7 @@ function varargout = vatviewer(varargin)
 
 % Edit the above text to modify the response to help vatviewer
 
-% Last Modified by GUIDE v2.5 31-Oct-2016 17:00:27
+% Last Modified by GUIDE v2.5 04-Nov-2016 11:35:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -79,8 +79,14 @@ colormap('gray');
 % disable boundary button
 set(handles.pushbutton_FindBoundaries,'Enable','off');
 
+% disable tracing button
+set(handles.togglebutton_TraceBoundaries,'Enable','off');
+
 % set flag for loaded data to false
 BOOL_LOADED_DATA = 0;
+
+% set flag for tracing to false
+BOOL_TRACING_BOUNDARIES = 0;
 
 
 
@@ -163,8 +169,12 @@ else
     % enable boundaries button
     set(handles.pushbutton_FindBoundaries,'Enable','on');
 
+    % disable tracing button until non-binary image type is chosen
+    set(handles.togglebutton_TraceBoundaries,'Enable','off');
+    
     % set flag for loaded data to true
     BOOL_LOADED_DATA = 1;
+    BOOL_TRACING_BOUNDARIES = 0;
 end
 
 
@@ -235,66 +245,82 @@ if BOOL_LOADED_DATA
             disp('EAT selected.');
             WHICH_TYPE = 'EAT_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'PAAT'
             disp('PAAT selected.');
             WHICH_TYPE = 'PAAT_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'CAT'
             disp('CAT selected.');
             WHICH_TYPE = 'CAT_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'SCAT'
             disp('SCAT selected.');
             WHICH_TYPE = 'SCAT_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');            
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'TAT'
             disp('TAT selected.');
             WHICH_TYPE = 'TAT_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');            
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'VAT'
             disp('VAT selected.');
             WHICH_TYPE = 'VAT_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'IMAT'
             disp('IMAT selected.');
             WHICH_TYPE = 'IMAT_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'ORGANS'
             disp('ORGANS selected.');
             WHICH_TYPE = 'ORGANS_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'VOIDS'
             disp('VOIDS selected.');
             WHICH_TYPE = 'VOIDS_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'LUNGS'
             disp('LUNGS selected.');
             WHICH_TYPE = 'LUNGS_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'HEART'
             disp('HEART selected.');
             WHICH_TYPE = 'HEART_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'AORTA'
             disp('AORTA selected.');
             WHICH_TYPE = 'AORTA_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','on');
+            set(handles.togglebutton_TraceBoundaries,'Enable','off');
         case 'Fat Only Image'
             disp('Fat Only Image selected.');
             WHICH_TYPE = 'FATONLY_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','off');
+            set(handles.togglebutton_TraceBoundaries,'Enable','on');
         case 'Water Only Image'
             disp('Water Only Image selected.');
             WHICH_TYPE = 'WATERONLY_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','off');
+            set(handles.togglebutton_TraceBoundaries,'Enable','on');
         case 'Fat Fraction'
             disp('Fat Fraction selected.');
             WHICH_TYPE = 'FATFRACTION_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','off');
+            set(handles.togglebutton_TraceBoundaries,'Enable','on');
         case 'Water Fraction'
             disp('Water Fraction selected.');
             WHICH_TYPE = 'WATERFRACTION_3D';
             set(handles.pushbutton_FindBoundaries,'Enable','off');
+            set(handles.togglebutton_TraceBoundaries,'Enable','on');
         otherwise
     end
 
@@ -394,3 +420,20 @@ end
 hold off;
 
 
+% --- Executes on button press in togglebutton_TraceBoundaries.
+function togglebutton_TraceBoundaries_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton_TraceBoundaries (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton_TraceBoundaries
+button_state = get(hObject,'Value');
+if button_state == get(hObject,'Max')
+    % toggle button is pressed
+    disp('Trace Boundaries toggle button pressed');
+    BOOL_TRACING_BOUNDARIES = 1;
+elseif button_state == get(hObject,'Min')
+    % toggle button is not pressed
+    disp('Trace Boundaries toggle button NOT pressed');
+    BOOL_TRACING_BOUNDARIES = 0;
+end
