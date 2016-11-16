@@ -22,7 +22,7 @@ function varargout = vatviewer(varargin)
 
 % Edit the above text to modify the response to help vatviewer
 
-% Last Modified by GUIDE v2.5 04-Nov-2016 11:35:08
+% Last Modified by GUIDE v2.5 16-Nov-2016 16:01:10
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -175,6 +175,7 @@ else
     % set flag for loaded data to true
     BOOL_LOADED_DATA = 1;
     BOOL_TRACING_BOUNDARIES = 0;
+    RESULTS_FILENAME = resultsFileName;
 end
 
 
@@ -437,3 +438,43 @@ elseif button_state == get(hObject,'Min')
     disp('Trace Boundaries toggle button NOT pressed');
     BOOL_TRACING_BOUNDARIES = 0;
 end
+
+
+% --- Executes on button press in pushbutton_WriteJPGs.
+function pushbutton_WriteJPGs_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton_WriteJPGs (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
+
+% only proceed if loaded data
+if BOOL_LOADED_DATA
+
+    % output message for the callback
+    disp('Write JPGs pressed.');
+
+    % get number of frames valid in current 3D image data
+    numImageFrames = size(VOL_3D,3);
+
+    % loop through image frames, create filename and write JPG image
+    for i=1:numImageFrames
+
+        % create filename based on the type and the number of frame
+        dotLoc = find(RESULTS_FILENAME == '.');
+        baseName = RESULTS_FILENAME(1:dotLoc-1);
+        fileNameToWrite = strcat(baseName,'_',WHICH_TYPE,'_',...
+            sprintf('%03d',i),'.jpg');
+                
+        % grab the image frame
+        imageToWrite = VOL_3D(:,:,i);
+        
+        % write this slice to file
+        disp(sprintf('Writing file %s ...',fileNameToWrite));
+        imwrite(imageToWrite,fileNameToWrite,'Quality',100);
+    end
+else
+    errordlg('Load results data before selecting Write JPGs!','Load Error');    
+end
+

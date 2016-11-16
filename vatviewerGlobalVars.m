@@ -22,6 +22,7 @@ global WATERFRACTION_3D;
 % to switch which tissue type to display - use a string
 % with the same as the variable name for that type
 global WHICH_TYPE; 
+global RESULTS_FILENAME;
 global VOL_3D; % to store the volume chosen
 global BOOL_LOADED_DATA; % flag for whether data has been loaded
 global BOOL_TRACING_BOUNDARIES; % flag for "tracing" mode
