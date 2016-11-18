@@ -172,10 +172,15 @@ else
     % disable tracing button until non-binary image type is chosen
     set(handles.togglebutton_TraceBoundaries,'Enable','off');
     
+    % set up button down and button up handlers
+    set(gcf,'WindowButtonDownFcn',@buttonDown);
+    set(gcf,'WindowButtonUpFcn',@buttonUp);
+    
     % set flag for loaded data to true
     BOOL_LOADED_DATA = 1;
     BOOL_TRACING_BOUNDARIES = 0;
     RESULTS_FILENAME = resultsFileName;
+    BOOL_BUTTON_DOWN = 0;
 end
 
 
@@ -430,13 +435,22 @@ function togglebutton_TraceBoundaries_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of togglebutton_TraceBoundaries
 button_state = get(hObject,'Value');
 if button_state == get(hObject,'Max')
+    
     % toggle button is pressed
     disp('Trace Boundaries toggle button pressed');
     BOOL_TRACING_BOUNDARIES = 1;
+    
+    % now setup the windowbuttonmotionfcn
+    set(gcf,'windowbuttonmotionfcn',@mouseMove);
+    
 elseif button_state == get(hObject,'Min')
+    
     % toggle button is not pressed
     disp('Trace Boundaries toggle button NOT pressed');
     BOOL_TRACING_BOUNDARIES = 0;
+    
+    % clear the windowbuttonmotionfcn
+    set(gcf,'windowbuttonmotionfcn','');
 end
 
 
@@ -477,4 +491,55 @@ if BOOL_LOADED_DATA
 else
     errordlg('Load results data before selecting Write JPGs!','Load Error');    
 end
+
+
+% --- handler for mouse movement
+function mouseMove(object,eventdata)
+%
+%
+
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
+
+% only manage tracing if mouse button down
+if BOOL_BUTTON_DOWN
+
+
+    % write out mouse location as temp test
+    mouseLocation = get(gca, 'CurrentPoint');
+    disp(sprintf('Mouse location: %03d,%03d',int16(mouseLocation(1,1)),...
+        int16(mouseLocation(1,2))));
+
+end
+
+
+% --- handler for mouse button down
+function buttonDown(object,eventdata)
+%
+%
+
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
+
+% trace message
+disp('Mouse button down...');
+
+% set flag appropriately
+BOOL_BUTTON_DOWN = 1;
+
+
+% --- handler for mouse button up
+function buttonUp(object,eventdata)
+%
+%
+
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
+
+% trace message
+disp('Mouse button up...');
+
+% set flag appropriately
+BOOL_BUTTON_DOWN = 0;
+
 

@@ -26,6 +26,7 @@ global RESULTS_FILENAME;
 global VOL_3D; % to store the volume chosen
 global BOOL_LOADED_DATA; % flag for whether data has been loaded
 global BOOL_TRACING_BOUNDARIES; % flag for "tracing" mode
+global BOOL_BUTTON_DOWN % flag for "button down" in figure during tracing
 
 % list of tissue types output by VATsegmentationFull2
 global SCAT3d;
@@ -44,5 +45,12 @@ global IFraw3d;
 global IWraw3d;
 global FatFraction;
 global WaterFraction;
+
+% storage for tracing fat
+global EAT_TRACED_CONTOURS;
+global PAAT_TRACED_CONTOURS;
+global PAT_TRACED_CONTOURS;
+global SAT_TRACED_CONTOURS;
+global VAT_TRACED_CONTOURS;
 
 
