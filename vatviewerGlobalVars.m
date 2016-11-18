@@ -47,6 +47,7 @@ global FatFraction;
 global WaterFraction;
 
 % storage for tracing fat
+global TRACING_WHICH_TYPE;
 global EAT_TRACED_CONTOURS;
 global PAAT_TRACED_CONTOURS;
 global PAT_TRACED_CONTOURS;

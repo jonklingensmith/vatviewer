@@ -22,7 +22,7 @@ function varargout = vatviewer(varargin)
 
 % Edit the above text to modify the response to help vatviewer
 
-% Last Modified by GUIDE v2.5 16-Nov-2016 16:01:10
+% Last Modified by GUIDE v2.5 18-Nov-2016 15:20:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -66,6 +66,7 @@ guidata(hObject, handles);
 
 % set data type to EAT by default on opening
 WHICH_TYPE = 'EAT_3D';
+TRACING_WHICH_TYPE = 'EAT_3D';
 
 % set the radio button to EAT initially upon loading new data
 set(handles.uibuttongroup_fatType,'SelectedObject',...
@@ -509,7 +510,12 @@ if BOOL_BUTTON_DOWN
     mouseLocation = get(gca, 'CurrentPoint');
     disp(sprintf('Mouse location: %03d,%03d',int16(mouseLocation(1,1)),...
         int16(mouseLocation(1,2))));
-
+    
+    % add the point to the current boundary data
+    AddPointToCountours(TRACING_WHICH_TYPE,mouseLocation)
+    
+    % draw line up to this point
+    DrawCountours(TRACING_WHICH_TYPE);
 end
 
 
@@ -543,3 +549,36 @@ disp('Mouse button up...');
 BOOL_BUTTON_DOWN = 0;
 
 
+% --- Executes when selected object is changed in uibuttongroup_TracingType.
+function uibuttongroup_TracingType_SelectionChangedFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uibuttongroup_TracingType 
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% global variables from the workspace to use elsewhere
+vatviewerGlobalVars;
+
+% get current selection
+stringSelection = get(hObject,'String');
+
+% set the correct data and reload 
+switch stringSelection
+    case 'Tracing EAT'
+        disp('Tracing EAT selected.');
+        TRACING_WHICH_TYPE = 'EAT_3D';
+    case 'Tracing SCAT'
+        disp('Tracing SCAT selected.');
+        TRACING_WHICH_TYPE = 'SCAT_3D';
+    case 'Tracing VAT'
+        disp('Tracing VAT selected.');
+        TRACING_WHICH_TYPE = 'VAT_3D';
+    case 'Tracing PAAT'
+        disp('Tracing PAAT selected.');
+        TRACING_WHICH_TYPE = 'PAAT_3D';
+    case 'Tracing PAT'
+        disp('Tracing PAT selected.');
+        TRACING_WHICH_TYPE = 'PAT_3D';
+    otherwise
+end
+    
