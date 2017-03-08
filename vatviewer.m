@@ -142,7 +142,8 @@ else
     sliderhandle = handles.slider_imageSlice;
     set(sliderhandle,'Max',numSlices);
     set(sliderhandle,'Min',1);
-    
+    set(sliderhandle,'SliderStep',[1/(numSlices-1) 10/(numSlices-1)]);
+
     % take the middle slice as the initial image to display
     middleSlice = floor(numSlices / 2);
     imagesc(VOL_3D(:,:,middleSlice),'Parent',handles.axes_image);
@@ -209,9 +210,9 @@ end
 if currpos > maxval
     currpos = maxval;
 end
-set(handles.slider_imageSlice,'Value',currpos);
+%set(handles.slider_imageSlice,'Value',currpos);
 disp(sprintf('slider value: %f',currpos));
-imagesc(VOL_3D(:,:,uint8(currpos)),'Parent',handles.axes_image);
+imagesc(VOL_3D(:,:,uint8(round(currpos))),'Parent',handles.axes_image);
 
 % set appropriate value in frame number label
 set(handles.text_frameNumber,'String',...
@@ -341,7 +342,8 @@ if BOOL_LOADED_DATA
     sliderhandle = handles.slider_imageSlice;
     set(sliderhandle,'Max',numSlices);
     set(sliderhandle,'Min',1);
-
+    set(sliderhandle,'SliderStep',[1/(numSlices-1) 10/(numSlices-1)]);
+    
     % keep current location of slider position unless it's out of bounds
     % for the new image set - if so, set to closest value
     valueToSet = get(sliderhandle,'Value');
@@ -350,7 +352,7 @@ if BOOL_LOADED_DATA
     end
     
     % take the middle slice as the initial image to display
-    imagesc(VOL_3D(:,:,valueToSet),'Parent',handles.axes_image);
+    imagesc(VOL_3D(:,:,uint8(valueToSet)),'Parent',handles.axes_image);
     set(sliderhandle,'Value',valueToSet);
     
     % set appropriate value in frame number label
